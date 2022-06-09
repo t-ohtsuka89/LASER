@@ -4,3 +4,5 @@ numpy
 Cython
 torch
 transliterate
+requests
+fairseq==0.10.2
