@@ -1,7 +1,5 @@
 FROM continuumio/miniconda3
 
-MAINTAINER Gilles Bodart <gillesbodart@users.noreply.github.com>
-
 RUN conda create -n env python=3.6
 RUN echo "source activate env" > ~/.bashrc
 ENV PATH /opt/conda/envs/env/bin:$PATH
@@ -33,7 +31,7 @@ RUN pip install --trusted-host pypi.python.org -r requirements.txt --verbose
 
 
 # Download LASER from FB
-RUN git clone https://github.com/facebookresearch/LASER.git
+RUN git clone https://github.com/t-ohtsuka89/LASER.git
 
 ENV LASER /app/LASER
 WORKDIR $LASER
@@ -53,14 +51,10 @@ COPY ./decode.py $LASER/tasks/embed/decode.py
 # Make port 80 available to the world outside this container
 WORKDIR /app
 
-RUN echo "Hello World" > test.txt
-
-RUN $LASER/tasks/embed/embed.sh test.txt en test_embed.raw
-RUN python $LASER/tasks/embed/decode.py test_embed.raw
-
 #Open the port 80
 EXPOSE 80
 
 COPY ./app.py /app/app.py
+COPY ./test.py /app/test.py
 
 CMD ["/bin/bash"]
